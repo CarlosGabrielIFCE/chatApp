@@ -8,12 +8,19 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { FIREBASE_CREDENTIALS } from './firebase.credentials';
 import { UserService } from '../providers/user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../providers/auth/auth.service';
-import { AngularFireAuthModule } from   'angularfire2/auth';
+
+import { FirebaseAppConfig } from 'angularfire2';
+
+const firebaseAppConfig: FirebaseAppConfig = {
+  apiKey: "AIzaSyBw4rg6dyo6hLaoM5S-jm_IgWMr-DZkWOk",
+  authDomain: "suchachat-f4e0e.firebaseapp.com",
+  databaseURL: "https://suchachat-f4e0e.firebaseio.com",
+  storageBucket: "suchachat-f4e0e.appspot.com",
+  messagingSenderId: "13793012442",
+}
 
 @NgModule({
   declarations: [
@@ -24,9 +31,9 @@ import { AngularFireAuthModule } from   'angularfire2/auth';
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
+    AngularFireModule.initializeApp(firebaseAppConfig),
+    //AngularFireDatabaseModule,
+    //AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

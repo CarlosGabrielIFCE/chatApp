@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth, FirebaseAuthState } from 'angularfire2';
 
 @Injectable()
 export class AuthService {
@@ -10,8 +10,8 @@ export class AuthService {
     console.log('Hello AuthProvider Provider');
   }
 
-  createAuthUser(user: {email: string, password: string}) {
-    return this.auth.auth.createUserWithEmailAndPassword(user.email, user.password);
+  createAuthUser(user: {email: string, password: string}): firebase.Promise<FirebaseAuthState> {
+    return this.auth.createUser(user);
   }
 
 }

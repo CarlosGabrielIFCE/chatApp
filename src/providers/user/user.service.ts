@@ -1,28 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { User } from '../../models/user.model';
-import { Observable } from 'rxjs/Observable';
+import firebase from 'firebase/app';
 
 @Injectable()
 export class UserService {
+
+  users: FirebaseListObservable<User[]>;
+
   PATH: string = `/users`
 
-  constructor(public http: HttpClient, public af: AngularFireDatabase) {
+  constructor(public http: HttpClient, public af: AngularFire) {
+    this.users = this.af.database.list(this.PATH);
   }
 
-  getAll() {
-    return this.af.list(this.PATH, ref => ref.orderByChild('name'))
-    .snapshotChanges()
-    .map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    })
-  }
-
-  create(user: User) {
-    return this.af.list(this.PATH)
-      .push(user);
+  create(user: User): firebase.Promise<void> {
+    return this.af.database.object(this.PATH + `/${user.uid}`).set(user);
   }
 
 }

@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../providers/user/user.service';
 import { User } from '../../models/user.model';
+import { FirebaseListObservable } from 'angularfire2';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +11,7 @@ import { User } from '../../models/user.model';
 })
 export class HomePage {
 
-  users: Observable<any>;
+  users: FirebaseListObservable<User[]>;
 
   constructor(public navCtrl: NavController,
               public userService: UserService) {
@@ -22,7 +23,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    this.users = this.userService.getAll();
+     this.users = this.userService.users;
   }
 
   onChatCreate(user): void {
