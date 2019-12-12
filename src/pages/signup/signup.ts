@@ -5,6 +5,8 @@ import { UserService } from '../../providers/user/user.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { FirebaseAuthState } from 'angularfire2';
 
+import 'rxjs/add/operator/first';
+
 @IonicPage()
 @Component({
   selector: 'page-signup',
@@ -36,32 +38,44 @@ export class SignupPage {
 
     let loading: Loading = this.showLoading();
     let formUser = this.signupForm.value;
+    let username: string = formUser.username;
 
-    this.authService.createAuthUser({
-      email: formUser.email,
-      password: formUser.password
-    })
-      .then((authState: FirebaseAuthState) => {
+    this.userService.userExists(username)
+      .first()
+      .subscribe((userExists: boolean) => {
 
-        delete formUser.password;
-        formUser.uid = authState.auth.uid;
-
-        this.userService.create(formUser)
-          .then(() => {
-            console.log("Usuário Cadastrado");
-            loading.dismiss();
+        if (!userExists) {
+          this.authService.createAuthUser({
+            email: formUser.email,
+            password: formUser.password
           })
-          .catch((error: Error) => {
-            console.log(error);
-            loading.dismiss();
-            this.showAlert(error.message);
-          })
-          
-      }).catch((error: Error) => {
-        console.log(error);
-        loading.dismiss();
-        this.showAlert(error.message);
-      })
+            .then((authState: FirebaseAuthState) => {
+
+              delete formUser.password;
+              formUser.uid = authState.auth.uid;
+
+              this.userService.create(formUser)
+                .then(() => {
+                  console.log("Usuário Cadastrado");
+                  loading.dismiss();
+                })
+                .catch((error: any) => {
+                  console.log(error);
+                  loading.dismiss();
+                  this.showAlert(error);
+                })
+
+            }).catch((error: any) => {
+              console.log(error);
+              loading.dismiss();
+              this.showAlert(error);
+            })
+        } else {
+          this.showAlert(`O Username ${username} já está sendo usado em outra conta.`);
+          loading.dismiss();
+        }
+
+      });
   }
 
   private showLoading(): Loading {

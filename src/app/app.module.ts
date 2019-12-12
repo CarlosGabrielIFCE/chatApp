@@ -45,7 +45,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserService,
-    AuthService
+    AuthService,
   ]
 })
 export class AppModule {}
