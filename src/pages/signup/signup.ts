@@ -6,6 +6,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { FirebaseAuthState } from 'angularfire2';
 
 import 'rxjs/add/operator/first';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -57,6 +58,7 @@ export class SignupPage {
               this.userService.create(formUser)
                 .then(() => {
                   console.log("Usuário Cadastrado");
+                  this.navCtrl.setRoot(HomePage);
                   loading.dismiss();
                 })
                 .catch((error: any) => {

@@ -7,12 +7,17 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { UserService } from '../providers/user/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../providers/auth/auth.service';
 
 import { FirebaseAppConfig } from 'angularfire2';
+
+const firebaseAuthConfig = {
+  provider: AuthProviders.Custom,
+  method: AuthMethods.Password
+}
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyBw4rg6dyo6hLaoM5S-jm_IgWMr-DZkWOk",
@@ -31,7 +36,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseAppConfig),
+    AngularFireModule.initializeApp(firebaseAppConfig, firebaseAuthConfig),
     //AngularFireDatabaseModule,
     //AngularFireAuthModule,
   ],
