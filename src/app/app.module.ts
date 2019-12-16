@@ -13,6 +13,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../providers/auth/auth.service';
 
 import { FirebaseAppConfig } from 'angularfire2';
+import { CustomLoggedHeaderComponent } from '../components/custom-logged-header/custom-logged-header';
+import { CapitalizePipe } from '../pipes/capitalize.pipe';
+import { ChatPage } from '../pages/chat/chat';
+import { ChatService } from '../providers/chat/chat.service';
+import { MessageService } from '../providers/message/message.service';
+import { MessageBoxComponent } from '../components/message-box/message-box';
+import { UserInfoComponent } from '../components/user-info/user-info';
+import { UserMenuComponent } from '../components/user-menu/user-menu';
+import { UserProfilePage } from '../pages/user-profile/user-profile';
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 const firebaseAuthConfig = {
   provider: AuthProviders.Custom,
@@ -30,20 +40,28 @@ const firebaseAppConfig: FirebaseAppConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    CapitalizePipe,
+    CustomLoggedHeaderComponent,
+    ChatPage,
+    MessageBoxComponent,
+    UserInfoComponent,
+    UserMenuComponent,
+    UserProfilePage,
+    ProgressBarComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAppConfig, firebaseAuthConfig),
-    //AngularFireDatabaseModule,
-    //AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    ChatPage,
+    UserProfilePage
   ],
   providers: [
     StatusBar,
@@ -51,6 +69,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserService,
     AuthService,
+    ChatService,
+    MessageService,
   ]
 })
 export class AppModule {}
