@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import { NavController, NavParams, Content } from 'ionic-angular';
 
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from '../../models/user.model';
@@ -12,7 +12,6 @@ import firebase from 'firebase';
 import { Chat } from '../../models/chat.model';
 import { ChatService } from '../../providers/chat/chat.service';
 
-@IonicPage()
 @Component({
   selector: 'page-chat',
   templateUrl: 'chat.html',
@@ -49,7 +48,8 @@ export class ChatPage {
       this.chat1 = this.chatService.getDeepChat(this.sender.$key, this.recipient.$key);
       this.chat2 = this.chatService.getDeepChat(this.recipient.$key, this.sender.$key);
 
-      this.chat1
+      if (this.recipient.photo) {
+        this.chat1
         .first()
         .subscribe((chat: Chat) => {
           this.chatService.updatePhoto(this.chat1, chat.photo, this.recipient.photo)
@@ -58,6 +58,7 @@ export class ChatPage {
               
             })
         })
+      }
 
       let doSubscription = () => {
         this.messages.subscribe((messages: Message[]) => {
