@@ -1,0 +1,85 @@
+<ion-header>
+  <custom-logged-header [title]="'Controle de Encomendas' | capitalize:true"></custom-logged-header>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="inAddOrder">
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+
+      <ion-item *ngIf="!form.controls.name.valid && (form.controls.name.dirty || form.controls.name.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.name.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Status</ion-label>
+        <ion-select formControlName="status">
+          <ion-option value="Aguardando Retirada">Aguardando Retirada</ion-option>
+          <ion-option value="Recebido">Recebido</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.status.valid && (form.controls.status.dirty || form.controls.status.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.status.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Destinatário</ion-label>
+        <ion-select formControlName="destinatary">
+          <ion-option *ngFor="let user of users" value="{{user.$key}}">{{ user.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.destinatary.valid && (form.controls.destinatary.dirty || form.controls.destinatary.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.destinatary.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input type="description" formControlName="description"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.description.valid && (form.controls.description.dirty || form.controls.description.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.description.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+      
+      <div padding>
+        <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+      </div>
+    </form>
+  </ng-container>
+  <ion-card *ngFor="let order of orders | async">
+    <ion-card-content>
+      <ion-card-title>
+        {{ order.name }} - {{ order.destinatary.name }}
+      </ion-card-title>
+      <p><i>{{ order.status }}</i></p>
+      <p>
+        {{ order.description}}
+      </p>
+      <p style="font-size: 80%;"><i>Última atualização: {{ order.lastModified}}</i> </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="addOrder()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

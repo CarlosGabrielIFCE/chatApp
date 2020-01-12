@@ -1,0 +1,79 @@
+<ion-header>
+  <custom-logged-header [title]="'Ocorrências' | capitalize:true"></custom-logged-header>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="inAddOccurrence">
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+
+      <ion-item *ngIf="!form.controls.name.valid && (form.controls.name.dirty || form.controls.name.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.name.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Data</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" formControlName="dtOcorrencia"></ion-datetime>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.dtOcorrencia.valid && (form.controls.dtOcorrencia.dirty || form.controls.dtOcorrencia.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.dtOcorrencia.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Hora</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY" pickerFormat="MM/DD/YYYY" formControlName="hrOcorrencia"></ion-datetime>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.hrOcorrencia.valid && (form.controls.hrOcorrencia.dirty || form.controls.hrOcorrencia.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.hrOcorrencia.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input type="description" formControlName="description"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.description.valid && (form.controls.description.dirty || form.controls.description.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.description.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+      
+      <div padding>
+        <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+      </div>
+    </form>
+  </ng-container>
+  <ion-card *ngFor="let occurrence of occurrences | async">
+    <img [src]="occurrence.photo" *ngIf="occurrence.photo != undefined" />
+    <ion-card-content>
+      <ion-card-title>
+        {{ occurrence.name }}
+      </ion-card-title>
+      <p>
+        {{ occurrence.description}}
+      </p>
+      <p style="font-size: 80%;"><i>{{ occurrence.author.name }} - {{ occurrence.dtOcorrencia }} - {{ occurrence.hrOcorrencia }}</i></p>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="addOccurrence()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

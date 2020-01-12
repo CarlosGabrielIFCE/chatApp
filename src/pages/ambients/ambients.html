@@ -1,0 +1,53 @@
+<ion-header>
+  <custom-logged-header [title]="'Ambientes' | capitalize:true"></custom-logged-header>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="inAddAmbient">
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-label stacked>Nome</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!form.controls.name.valid && (form.controls.name.dirty || form.controls.name.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.name.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input type="description" formControlName="description"></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="!form.controls.description.valid && (form.controls.description.dirty || form.controls.description.touched)"
+        color="danger">
+        <div [hidden]="!form.controls.description.errors.required">
+          O campo é obrigatório
+        </div>
+      </ion-item>
+      
+      <div padding>
+        <button ion-button block type="submit" [disabled]="!form.valid" (click)="onSubmit()">Salvar</button>
+      </div>
+    </form>
+  </ng-container>
+  <ion-card *ngFor="let ambient of ambients | async">
+    <img [src]="ambient.photo" *ngIf="ambient.photo != undefined" />
+    <img src="assets/imgs/placeholder.png" *ngIf="ambient.photo == undefined" />
+    <ion-card-content>
+      <ion-card-title>
+        {{ ambient.name }}
+      </ion-card-title>
+      <p>
+        {{ ambient.description}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="addAmbient()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

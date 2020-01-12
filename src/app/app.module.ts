@@ -23,6 +23,14 @@ import { UserInfoComponent } from '../components/user-info/user-info';
 import { UserMenuComponent } from '../components/user-menu/user-menu';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
+import { OccurrenceService } from '../providers/occurrence/occurrences.service';
+import { OccurrencesPage } from '../pages/occurrences/occurrences';
+import { AmbientService } from '../providers/ambient/ambient.service';
+import { AmbientsPage } from '../pages/ambients/ambients';
+import { EventService } from '../providers/event/event.service';
+import { EventsPage } from '../pages/events/events';
+import { OrderService } from '../providers/order/order.service';
+import { OrdersPage } from '../pages/orders/orders';
 
 const firebaseAuthConfig = {
   provider: AuthProviders.Custom,
@@ -41,13 +49,17 @@ const firebaseAppConfig: FirebaseAppConfig = {
   declarations: [
     MyApp,
     HomePage,
+    AmbientsPage,
+    ChatPage,
+    UserProfilePage,
+    OccurrencesPage,
+    EventsPage,
+    OrdersPage,
     CapitalizePipe,
     CustomLoggedHeaderComponent,
-    ChatPage,
     MessageBoxComponent,
     UserInfoComponent,
     UserMenuComponent,
-    UserProfilePage,
     ProgressBarComponent
   ],
   imports: [
@@ -61,7 +73,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     MyApp,
     HomePage,
     ChatPage,
-    UserProfilePage
+    UserProfilePage,
+    OccurrencesPage,
+    AmbientsPage,
+    EventsPage,
+    OrdersPage
   ],
   providers: [
     StatusBar,
@@ -71,6 +87,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AuthService,
     ChatService,
     MessageService,
+    OccurrenceService,
+    AmbientService,
+    AmbientsPage,
+    EventService,
+    OrderService
   ]
 })
 export class AppModule {}

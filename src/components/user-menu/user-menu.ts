@@ -4,6 +4,10 @@ import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from '../../models/user.model';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
+import { OccurrencesPage } from '../../pages/occurrences/occurrences';
+import { AmbientsPage } from '../../pages/ambients/ambients';
+import { EventsPage } from '../../pages/events/events';
+import { OrdersPage } from '../../pages/orders/orders';
 
 @Component({
   selector: 'user-menu',
@@ -22,6 +26,22 @@ export class UserMenuComponent extends BaseComponent {
 
   onProfile(): void {
     this.navCtrl.push(UserProfilePage)
+  }
+
+  onOccurrences(): void {
+    this.navCtrl.push(OccurrencesPage);
+  }
+
+  onAmbients(): void {
+    this.navCtrl.push(AmbientsPage);
+  }
+
+  onEvents(): void {
+    this.navCtrl.push(EventsPage);
+  }
+
+  onOrders(): void {
+    this.navCtrl.push(OrdersPage);
   }
 
 }
