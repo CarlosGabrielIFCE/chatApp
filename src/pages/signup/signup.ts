@@ -31,7 +31,8 @@ export class SignupPage {
       name: ['', [Validators.required, Validators.minLength(3)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegex)])]
+      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegex)])],
+      cdPerfil: ['', Validators.required]
     })
   }
 

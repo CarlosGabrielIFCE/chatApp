@@ -6,7 +6,8 @@ export class User {
         public name: string,
         public username: string,
         public email: string,
-        public photo: string) {
+        public photo: string,
+        public cdPerfil: number) {
 
     }
 }

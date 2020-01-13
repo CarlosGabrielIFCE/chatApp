@@ -1,5 +1,9 @@
 <ion-header>
   <custom-logged-header [title]="'Ocorrências' | capitalize:true"></custom-logged-header>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>

@@ -21,13 +21,13 @@ export class OccurrencesPage {
   occurrence: Occurrence = new Occurrence();
   currentUser: User;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
-              public authService: AuthService,
-              public occurrencesService: OccurrenceService,
-              public userService: UserService,
-              public formBuilder: FormBuilder,
-              public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public authService: AuthService,
+    public occurrencesService: OccurrenceService,
+    public userService: UserService,
+    public formBuilder: FormBuilder,
+    public toastCtrl: ToastController) {
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -35,7 +35,7 @@ export class OccurrencesPage {
   }
 
   ionViewDidLoad() {
-    this.occurrences = this.occurrencesService.getAll();
+    this.occurrences = this.occurrencesService.occurrences;
     this.userService.currentUser.subscribe((user: User) => {
       this.currentUser = user;
     })
@@ -61,12 +61,27 @@ export class OccurrencesPage {
     if (this.form.valid) {
       this.occurrencesService.create(this.form.value)
         .then(() => {
-          this.toastCtrl.create({message: "Ocorrência adicionada com sucesso", showCloseButton: true, duration: 3000}).present();
+          this.toastCtrl.create({ message: "Ocorrência adicionada com sucesso", showCloseButton: true, duration: 3000 }).present();
           this.inAddOccurrence = false;
           this.occurrence = new Occurrence();
-          
+
         }).catch((error: Error) => {
-          this.toastCtrl.create({message: "Ocorreu um erro ao salvar a ocorrência: " + error.message, showCloseButton: true, duration: 3000}).present();
+          this.toastCtrl.create({ message: "Ocorreu um erro ao salvar a ocorrência: " + error.message, showCloseButton: true, duration: 3000 }).present();
+        })
+    }
+  }
+
+  filterItems(event: any): void {
+    let searchTerm: string = event.target.value;
+
+    this.occurrences = this.occurrencesService.occurrences;
+
+    if (searchTerm) {
+      this.occurrences = <FirebaseListObservable<Occurrence[]>>this.occurrences
+        .map((occurrence: Occurrence[]) => {
+          return occurrence.filter((occurrence: Occurrence) => {
+            return (occurrence.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+          })
         })
     }
   }

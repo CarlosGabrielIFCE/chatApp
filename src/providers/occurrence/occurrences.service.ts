@@ -1,15 +1,32 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base/base.service';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseAuthState } from 'angularfire2';
 import { Occurrence } from '../../models/occurrence.model';
 
 @Injectable()
 export class OccurrenceService extends BaseService {
 
+  occurrences: FirebaseListObservable<Occurrence[]>;
+
   constructor(public af: AngularFire) {
     super();
+    this.setOccurrences();
   }
 
+  private setOccurrences(): void {
+    this.af.auth.subscribe((authState: FirebaseAuthState) => {
+      if (authState) {
+
+        this.occurrences = <FirebaseListObservable<Occurrence[]>>this.af.database.list(`/occurrences`, {
+          query: {
+            orderByChild: 'name'
+          }
+        }).map((occurrences: Occurrence[]) => {
+          return occurrences.reverse();
+        }).catch(this.handleObservableError);
+      }
+    });
+  }
 
   create(occurrence: Occurrence): firebase.Promise<void> {
     if (occurrence.$key) {

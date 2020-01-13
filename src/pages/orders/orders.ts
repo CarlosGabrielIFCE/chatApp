@@ -21,14 +21,15 @@ export class OrdersPage {
   order: Order = new Order();
   cdUser: string;
   users: User[];
+  currentUser: User;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
-              public authService: AuthService,
-              public orderService: OrderService,
-              public userService: UserService,
-              public formBuilder: FormBuilder,
-              public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public authService: AuthService,
+    public orderService: OrderService,
+    public userService: UserService,
+    public formBuilder: FormBuilder,
+    public toastCtrl: ToastController) {
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -36,16 +37,24 @@ export class OrdersPage {
   }
 
   ionViewDidLoad() {
-    this.orders = this.orderService.getAll();
+    this.orders = this.orderService.orders;
     this.userService.af.database.list("/users")
       .subscribe((users: User[]) => {
         this.users = users;
       })
+    this.userService.currentUser.subscribe((user: User) => {
+      this.currentUser = user;
+    })
   }
 
   addOrder(): void {
-    this.inAddOrder = true;
-    this.createForm();
+    if (this.currentUser.cdPerfil == undefined || this.currentUser.cdPerfil == 1) {
+      this.toastCtrl.create({ message: "Você não tem permissão para adicionar novas Encomendas.", duration: 3000 }).present();
+      return;
+    } else {
+      this.inAddOrder = true;
+      this.createForm();
+    }
   }
 
   createForm() {
@@ -67,12 +76,27 @@ export class OrdersPage {
         })
       this.orderService.create(this.form.value)
         .then(() => {
-          this.toastCtrl.create({message: "Encomenda adicionada com sucesso", showCloseButton: true, duration: 3000}).present();
+          this.toastCtrl.create({ message: "Encomenda adicionada com sucesso", showCloseButton: true, duration: 3000 }).present();
           this.inAddOrder = false;
           this.order = new Order();
-          
+
         }).catch((error: Error) => {
-          this.toastCtrl.create({message: "Ocorreu um erro ao salvar a Encomenda: " + error.message, showCloseButton: true, duration: 3000}).present();
+          this.toastCtrl.create({ message: "Ocorreu um erro ao salvar a Encomenda: " + error.message, showCloseButton: true, duration: 3000 }).present();
+        })
+    }
+  }
+
+  filterItems(event: any): void {
+    let searchTerm: string = event.target.value;
+
+    this.orders = this.orderService.orders;
+
+    if (searchTerm) {
+      this.orders = <FirebaseListObservable<Order[]>>this.orders
+        .map((order: Order[]) => {
+          return order.filter((order: Order) => {
+            return (order.destinatary.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+          })
         })
     }
   }

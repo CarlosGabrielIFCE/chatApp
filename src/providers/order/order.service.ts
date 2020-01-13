@@ -1,13 +1,31 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base/base.service';
-import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseObjectObservable, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 import { Order } from '../../models/order.model';
 
 @Injectable()
 export class OrderService extends BaseService {
 
+  orders: FirebaseListObservable<Order[]>;
+
   constructor(public af: AngularFire) {
     super();
+    this.setOrders();
+  }
+
+  private setOrders(): void {
+    this.af.auth.subscribe((authState: FirebaseAuthState) => {
+      if (authState) {
+
+        this.orders = <FirebaseListObservable<Order[]>>this.af.database.list(`/orders`, {
+          query: {
+            orderByChild: 'name'
+          }
+        }).map((order: Order[]) => {
+          return order.reverse();
+        }).catch(this.handleObservableError);
+      }
+    });
   }
 
   create(order: Order ): firebase.Promise<void> {
