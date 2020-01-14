@@ -64,16 +64,27 @@
     </form>
   </ng-container>
   <ion-card *ngFor="let occurrence of occurrences | async">
-    <img [src]="occurrence.photo" *ngIf="occurrence.photo != undefined" />
-    <ion-card-content>
-      <ion-card-title>
-        {{ occurrence.name }}
-      </ion-card-title>
-      <p>
-        {{ occurrence.description}}
-      </p>
-      <p style="font-size: 80%;"><i>{{ occurrence.author.name }} - {{ occurrence.dtOcorrencia }} - {{ occurrence.hrOcorrencia }}</i></p>
-    </ion-card-content>
+    <ion-list>
+      <ion-item-sliding>
+        <ion-item text-wrap>
+          <img [src]="occurrence.photo" *ngIf="occurrence.photo != undefined" />
+          <ion-card-content>
+            <ion-card-title>
+              {{ occurrence.name }}
+            </ion-card-title>
+            <p>
+              {{ occurrence.description}}
+            </p>
+            <p style="font-size: 80%;"><i>{{ occurrence.author.name }} - {{ occurrence.dtOcorrencia }} - {{ occurrence.hrOcorrencia }}</i></p>
+          </ion-card-content>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button icon-only color="danger" (click)="onDelete(occurrence.$key)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
   </ion-card>
   <ion-fab right bottom>
     <button ion-fab color="primary" (click)="addOccurrence()">

@@ -8,6 +8,7 @@ import { OccurrencesPage } from '../../pages/occurrences/occurrences';
 import { AmbientsPage } from '../../pages/ambients/ambients';
 import { EventsPage } from '../../pages/events/events';
 import { OrdersPage } from '../../pages/orders/orders';
+import { UserRegisterPage } from '../../pages/user-register/user-register';
 
 @Component({
   selector: 'user-menu',
@@ -42,6 +43,10 @@ export class UserMenuComponent extends BaseComponent {
 
   onOrders(): void {
     this.navCtrl.push(OrdersPage);
+  }
+
+  onUserRegister(): void {
+    this.navCtrl.push(UserRegisterPage);
   }
 
 }

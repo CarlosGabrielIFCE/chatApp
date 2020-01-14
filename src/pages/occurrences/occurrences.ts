@@ -86,4 +86,11 @@ export class OccurrencesPage {
     }
   }
 
+  onDelete(occurrenceId: string): void {
+    this.occurrencesService.delete(occurrenceId)
+      .then(() => {
+        this.toastCtrl.create({message: "Ocorrência excluida com sucesso.", duration: 3000}).present();
+      })
+  }
+
 }

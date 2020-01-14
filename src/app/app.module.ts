@@ -31,6 +31,7 @@ import { EventService } from '../providers/event/event.service';
 import { EventsPage } from '../pages/events/events';
 import { OrderService } from '../providers/order/order.service';
 import { OrdersPage } from '../pages/orders/orders';
+import { UserRegisterPage } from '../pages/user-register/user-register';
 
 const firebaseAuthConfig = {
   provider: AuthProviders.Custom,
@@ -55,6 +56,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
     OccurrencesPage,
     EventsPage,
     OrdersPage,
+    UserRegisterPage,
     CapitalizePipe,
     CustomLoggedHeaderComponent,
     MessageBoxComponent,
@@ -77,7 +79,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     OccurrencesPage,
     AmbientsPage,
     EventsPage,
-    OrdersPage
+    OrdersPage,
+    UserRegisterPage,
   ],
   providers: [
     StatusBar,

@@ -31,6 +31,15 @@
       <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
+      <ion-label>Perfil</ion-label>
+      <ion-select formControlName="cdPerfil">
+        <ion-option value="1">Morador</ion-option>
+        <ion-option value="3">Porteiro</ion-option>
+      </ion-select>
+    </ion-item>
+
     <br>
     <button ion-button full type="submit" [disabled]="signupForm.invalid">Criar Conta</button>
 
