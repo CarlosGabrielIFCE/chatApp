@@ -1,6 +1,6 @@
 # CHat App
 
-This is a Chat App App developed using integration between Ionic and Firebase.
+This is a Chat App developed using integration between Ionic and Firebase.
 
 Ionic/Node.js Versions:
 
